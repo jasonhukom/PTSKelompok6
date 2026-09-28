@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,21 +20,24 @@ import androidx.core.view.WindowInsetsCompat;
  * Layar kedua (Project 2 - User Interaction), dikembangkan untuk PTS:
  * - Menyapa pengguna dengan nama yang dikirim dari MainActivity.
  * - Memvalidasi input nomor telepon sebelum dikirim.
- * - Menampilkan hasil input di layar (bukan hanya Toast).
- * - Menghitung jumlah data yang sudah dikirim (fitur counter,
- *   dikembangkan dari konsep counter pada Project 1).
+ * - Menampilkan daftar hasil input nomor telepon di box yang dapat di-scroll.
+ * - Mengosongkan input nomor telepon agar siap menerima input baru.
+ * - Menghitung jumlah data yang sudah dikirim (fitur counter).
  */
 public class FormActivity extends AppCompatActivity {
 
     EditText editTextPhone;
+    RadioGroup radioGroup;
     RadioButton radioRumah;
     RadioButton radioMobile;
     RadioButton radioKantor;
     TextView textGreeting;
     TextView textResult;
     TextView textCounter;
+    ScrollView scrollViewResult;
 
     int jumlahTerkirim = 0;
+    StringBuilder listNomor = new StringBuilder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +52,14 @@ public class FormActivity extends AppCompatActivity {
         });
 
         editTextPhone = findViewById(R.id.editTextPhone);
+        radioGroup = findViewById(R.id.radioGroup);
         radioRumah = findViewById(R.id.radioRumah);
         radioMobile = findViewById(R.id.radioMobile);
         radioKantor = findViewById(R.id.radioKantor);
         textGreeting = findViewById(R.id.textGreeting);
         textResult = findViewById(R.id.textResult);
         textCounter = findViewById(R.id.textCounter);
+        scrollViewResult = findViewById(R.id.scrollViewResult);
 
         String nama = getIntent().getStringExtra(MainActivity.EXTRA_NAMA);
         if (TextUtils.isEmpty(nama)) {
@@ -83,9 +90,23 @@ public class FormActivity extends AppCompatActivity {
 
         jumlahTerkirim++;
 
-        textResult.setText("Data ke-" + jumlahTerkirim + " berhasil dikirim:\n"
-                + pilih + " - " + phone);
+        if (listNomor.length() > 0) {
+            listNomor.append("\n\n");
+        }
+        listNomor.append("Data ke-").append(jumlahTerkirim).append(":\n")
+                 .append(pilih).append(" - ").append(phone);
+
+        textResult.setText(listNomor.toString());
         textCounter.setText("Jumlah data terkirim: " + jumlahTerkirim);
+
+        // Mengosongkan input nomor telepon untuk input berikutnya
+        editTextPhone.setText("");
+        radioGroup.clearCheck();
+
+        // Scroll otomatis ke posisi paling bawah box hasil
+        if (scrollViewResult != null) {
+            scrollViewResult.post(() -> scrollViewResult.fullScroll(View.FOCUS_DOWN));
+        }
 
         Toast.makeText(this, pilih + ": " + phone, Toast.LENGTH_SHORT).show();
     }
