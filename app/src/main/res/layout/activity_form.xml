@@ -19,11 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-<<<<<<< HEAD
-        tools:text="Halo, Jason! Silahkan lengkapi data kontak Anda." />
-=======
         tools:text="Halo, User! Silahkan lengkapi data kontak Anda." />
->>>>>>> e1b0fd065b274e8295c816c9301a8b883404edd3
 
     <EditText
         android:id="@+id/editTextPhone"
