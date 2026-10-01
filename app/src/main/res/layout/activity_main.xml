@@ -6,18 +6,43 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ivory"
+    android:background="@color/bg_main"
     tools:context=".MainActivity">
+
+    <Spinner
+        android:id="@+id/spinnerFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="@id/buttonThemeToggle"
+        app:layout_constraintEnd_toStartOf="@id/buttonThemeToggle"
+        app:layout_constraintTop_toTopOf="@id/buttonThemeToggle" />
+
+    <Button
+        android:id="@+id/buttonThemeToggle"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:padding="8dp"
+        android:text="@string/emoji_moon"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textJudul"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="80dp"
         android:fontFamily="monospace"
         android:text="@string/judul_kelompok"
         android:textAlignment="center"
-        android:textColor="@color/purple_700"
+        android:textColor="@color/text_title"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,6 +56,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/sub_judul"
         android:textAlignment="center"
+        android:textColor="@color/text_secondary"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +74,8 @@
         android:hint="@string/tulis_nama"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:textColorHint="#546E7A"
+        android:textColor="@color/edittext_text"
+        android:textColorHint="@color/edittext_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textSubJudul" />

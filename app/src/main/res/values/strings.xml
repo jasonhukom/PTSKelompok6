@@ -1,13 +1,14 @@
 <resources>
     <string name="app_name">PTS Kelompok 6</string>
 
-    <!-- MainActivity - Layar User Interface -->
+    <string name="emoji_sun">☀️</string>
+    <string name="emoji_moon">🌙</string>
+
     <string name="judul_kelompok">TellPhone</string>
     <string name="sub_judul">Simpan Nomor Telfon</string>
     <string name="tulis_nama">Tulis Nama Anda</string>
     <string name="tombol_lanjut">Lanjut</string>
 
-    <!-- FormActivity - Layar User Interaction -->
     <string name="input_phone">Silahkan masukan nomor Anda</string>
     <string name="telp_rumah">Telp Rumah</string>
     <string name="mobile">Mobile</string>

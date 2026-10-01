@@ -3,6 +3,7 @@ package com.example.ptskelompok6;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -16,14 +17,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-/**
- * Layar kedua (Project 2 - User Interaction), dikembangkan untuk PTS:
- * - Menyapa pengguna dengan nama yang dikirim dari MainActivity.
- * - Memvalidasi input nomor telepon sebelum dikirim.
- * - Menampilkan daftar hasil input nomor telepon di box yang dapat di-scroll.
- * - Mengosongkan input nomor telepon agar siap menerima input baru.
- * - Menghitung jumlah data yang sudah dikirim (fitur counter).
- */
 public class FormActivity extends AppCompatActivity {
 
     EditText editTextPhone;
@@ -35,12 +28,14 @@ public class FormActivity extends AppCompatActivity {
     TextView textResult;
     TextView textCounter;
     ScrollView scrollViewResult;
+    Button buttonThemeToggle;
 
     int jumlahTerkirim = 0;
     StringBuilder listNomor = new StringBuilder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeHelper.applyTheme(this);
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_form);
@@ -60,6 +55,13 @@ public class FormActivity extends AppCompatActivity {
         textResult = findViewById(R.id.textResult);
         textCounter = findViewById(R.id.textCounter);
         scrollViewResult = findViewById(R.id.scrollViewResult);
+        buttonThemeToggle = findViewById(R.id.buttonThemeToggle);
+
+        ThemeHelper.updateToggleIcon(buttonThemeToggle, this);
+
+        if (buttonThemeToggle != null) {
+            buttonThemeToggle.setOnClickListener(v -> ThemeHelper.toggleTheme(FormActivity.this));
+        }
 
         String nama = getIntent().getStringExtra(MainActivity.EXTRA_NAMA);
         if (TextUtils.isEmpty(nama)) {
@@ -68,7 +70,12 @@ public class FormActivity extends AppCompatActivity {
         textGreeting.setText("Halo, " + nama + "! Silahkan lengkapi data kontak Anda.");
     }
 
-    /** Dipanggil saat tombol "Kirim" ditekan. */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ThemeHelper.updateToggleIcon(buttonThemeToggle, this);
+    }
+
     public void showText(View view) {
         String phone = editTextPhone.getText().toString().trim();
 
@@ -94,16 +101,14 @@ public class FormActivity extends AppCompatActivity {
             listNomor.append("\n\n");
         }
         listNomor.append("Data ke-").append(jumlahTerkirim).append(":\n")
-                 .append(pilih).append(" - ").append(phone);
+                 .append(pilih).append(":").append(phone);
 
         textResult.setText(listNomor.toString());
         textCounter.setText("Jumlah data terkirim: " + jumlahTerkirim);
 
-        // Mengosongkan input nomor telepon untuk input berikutnya
         editTextPhone.setText("");
         radioGroup.clearCheck();
 
-        // Scroll otomatis ke posisi paling bawah box hasil
         if (scrollViewResult != null) {
             scrollViewResult.post(() -> scrollViewResult.fullScroll(View.FOCUS_DOWN));
         }

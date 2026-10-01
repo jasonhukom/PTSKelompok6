@@ -7,17 +7,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
-    android:background="@color/ivory"
+    android:background="@color/bg_main"
     tools:context=".FormActivity">
+
+    <Button
+        android:id="@+id/buttonThemeToggle"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:padding="8dp"
+        android:text="@string/emoji_moon"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textGreeting"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/text_primary"
+        app:layout_constraintEnd_toStartOf="@id/buttonThemeToggle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Halo, User! Silahkan lengkapi data kontak Anda." />
@@ -26,13 +41,14 @@
         android:id="@+id/editTextPhone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:autofillHints="phone"
         android:ems="10"
         android:hint="@string/input_phone"
         android:inputType="phone"
         android:minHeight="48dp"
-        android:textColorHint="#546E7A"
+        android:textColor="@color/edittext_text"
+        android:textColorHint="@color/edittext_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textGreeting" />
@@ -41,7 +57,7 @@
         android:id="@+id/radioGroup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editTextPhone">
@@ -50,18 +66,23 @@
             android:id="@+id/radioRumah"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textColor="@color/radio_text"
             android:text="@string/telp_rumah" />
 
         <RadioButton
             android:id="@+id/radioMobile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textColor="@color/radio_text"
             android:text="@string/mobile" />
 
         <RadioButton
             android:id="@+id/radioKantor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/radio_text"
             android:text="@string/telp_kantor" />
 
     </RadioGroup>
@@ -70,7 +91,7 @@
         android:id="@+id/buttonKirim"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:onClick="showText"
         android:text="@string/tombol_kirim"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,9 +102,10 @@
         android:id="@+id/scrollViewResult"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/ivory"
-        android:padding="12dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/box_border"
+        android:padding="16dp"
         app:layout_constraintBottom_toTopOf="@id/textCounter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/hasil_kosong"
-            android:textColor="@color/black"
+            android:textColor="@color/text_primary"
             android:textSize="14sp" />
 
     </ScrollView>
@@ -103,10 +125,10 @@
         android:id="@+id/textCounter"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="12dp"
         android:text="@string/jumlah_awal"
         android:textAlignment="center"
+        android:textColor="@color/text_secondary"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
