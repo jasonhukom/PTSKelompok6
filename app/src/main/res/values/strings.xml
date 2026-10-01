@@ -2,8 +2,8 @@
     <string name="app_name">PTS Kelompok 6</string>
 
     <!-- MainActivity - Layar User Interface -->
-    <string name="judul_kelompok">Kelompok Enam</string>
-    <string name="sub_judul">PTS Pemrograman Perangkat Bergerak</string>
+    <string name="judul_kelompok">TellPhone</string>
+    <string name="sub_judul">Simpan Nomor Telfon</string>
     <string name="tulis_nama">Tulis Nama Anda</string>
     <string name="tombol_lanjut">Lanjut</string>
 
