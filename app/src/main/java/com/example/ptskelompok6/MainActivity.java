@@ -1,7 +1,6 @@
 package com.example.ptskelompok6;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -62,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setupFontSpinner();
+        FontHelper.applyFontToActivity(this);
     }
 
     private void setupFontSpinner() {
@@ -75,41 +75,27 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFont.setAdapter(adapter);
 
+        String savedFont = FontHelper.getFont(this);
+        for (int i = 0; i < adapter.getCount(); i++) {
+            CharSequence item = adapter.getItem(i);
+            if (item != null && item.toString().equalsIgnoreCase(savedFont)) {
+                spinnerFont.setSelection(i);
+                break;
+            }
+        }
+
         spinnerFont.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String fontName = parent.getItemAtPosition(position).toString();
-                changeFont(fontName);
+                String selectedFont = parent.getItemAtPosition(position).toString();
+                FontHelper.saveFont(MainActivity.this, selectedFont);
+                FontHelper.applyFontToActivity(MainActivity.this);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-    }
-
-    private void changeFont(String fontName) {
-        Typeface typeface;
-        switch (fontName) {
-            case "Monospace":
-                typeface = Typeface.MONOSPACE;
-                break;
-            case "Serif":
-                typeface = Typeface.SERIF;
-                break;
-            case "Cursive":
-                typeface = Typeface.create("cursive", Typeface.NORMAL);
-                break;
-            case "Sans-Serif":
-            default:
-                typeface = Typeface.SANS_SERIF;
-                break;
-        }
-
-        if (textJudul != null) textJudul.setTypeface(typeface, Typeface.BOLD);
-        if (textSubJudul != null) textSubJudul.setTypeface(typeface);
-        if (editTextNama != null) editTextNama.setTypeface(typeface);
-        if (buttonLanjut != null) buttonLanjut.setTypeface(typeface);
     }
 
     @Override
@@ -122,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
             buttonLanjut.setEnabled(true);
         }
         ThemeHelper.updateToggleIcon(buttonThemeToggle, this);
+        FontHelper.applyFontToActivity(this);
     }
 
     public void lanjutkan(View view) {

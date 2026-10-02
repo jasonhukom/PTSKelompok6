@@ -30,8 +30,8 @@ public class FormActivity extends AppCompatActivity {
     ScrollView scrollViewResult;
     Button buttonThemeToggle;
 
-    int jumlahTerkirim = 0;
-    StringBuilder listNomor = new StringBuilder();
+    DatabaseHelper databaseHelper;
+    String currentUserNama;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,8 @@ public class FormActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        databaseHelper = new DatabaseHelper(this);
 
         editTextPhone = findViewById(R.id.editTextPhone);
         radioGroup = findViewById(R.id.radioGroup);
@@ -63,17 +65,41 @@ public class FormActivity extends AppCompatActivity {
             buttonThemeToggle.setOnClickListener(v -> ThemeHelper.toggleTheme(FormActivity.this));
         }
 
-        String nama = getIntent().getStringExtra(MainActivity.EXTRA_NAMA);
-        if (TextUtils.isEmpty(nama)) {
-            nama = "Kelompok Enam";
+        currentUserNama = getIntent().getStringExtra(MainActivity.EXTRA_NAMA);
+        if (TextUtils.isEmpty(currentUserNama)) {
+            currentUserNama = "Kelompok Enam";
         }
-        textGreeting.setText("Halo, " + nama + "! Silahkan lengkapi data kontak Anda.");
+        textGreeting.setText("Halo, " + currentUserNama + "! \nSilahkan lengkapi data kontak Anda.");
+
+        loadHistoryFromDatabase();
+        FontHelper.applyFontToActivity(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         ThemeHelper.updateToggleIcon(buttonThemeToggle, this);
+        loadHistoryFromDatabase();
+        FontHelper.applyFontToActivity(this);
+    }
+
+    private void loadHistoryFromDatabase() {
+        if (databaseHelper == null) return;
+
+        String historyData = databaseHelper.getAllHistoryString();
+        int totalCount = databaseHelper.getHistoryCount();
+
+        if (TextUtils.isEmpty(historyData)) {
+            textResult.setText(R.string.hasil_kosong);
+        } else {
+            textResult.setText(historyData);
+        }
+
+        textCounter.setText("Jumlah data terkirim: " + totalCount);
+
+        if (scrollViewResult != null) {
+            scrollViewResult.post(() -> scrollViewResult.fullScroll(View.FOCUS_DOWN));
+        }
     }
 
     public void showText(View view) {
@@ -95,23 +121,14 @@ public class FormActivity extends AppCompatActivity {
             pilih = "Belum memilih jenis telepon";
         }
 
-        jumlahTerkirim++;
+        String selectedFont = FontHelper.getFont(this);
 
-        if (listNomor.length() > 0) {
-            listNomor.append("\n\n");
-        }
-        listNomor.append("Data ke-").append(jumlahTerkirim).append(":\n")
-                 .append(pilih).append(":").append(phone);
-
-        textResult.setText(listNomor.toString());
-        textCounter.setText("Jumlah data terkirim: " + jumlahTerkirim);
+        databaseHelper.insertHistory(currentUserNama, pilih, phone, selectedFont);
 
         editTextPhone.setText("");
         radioGroup.clearCheck();
 
-        if (scrollViewResult != null) {
-            scrollViewResult.post(() -> scrollViewResult.fullScroll(View.FOCUS_DOWN));
-        }
+        loadHistoryFromDatabase();
 
         Toast.makeText(this, pilih + ": " + phone, Toast.LENGTH_SHORT).show();
     }
